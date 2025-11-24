@@ -53,10 +53,14 @@ export default function Home() {
         }
 
         // Add to uploaded files list
+        const fileInfo = response.file_info;
         setUploadedFiles((prev) => [
           ...prev,
           {
-            ...response.file_info,
+            name: fileInfo.name,
+            file_id: fileInfo.file_id,
+            status: fileInfo.status,
+            uploaded_at: fileInfo.uploaded_at,
             localName: file.name,
           },
         ]);
