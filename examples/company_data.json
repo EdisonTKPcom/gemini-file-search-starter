@@ -1,0 +1,79 @@
+{
+  "company": "TechCorp Solutions",
+  "employees": [
+    {
+      "id": 1,
+      "name": "Alice Johnson",
+      "position": "Senior Software Engineer",
+      "department": "Engineering",
+      "skills": ["Python", "JavaScript", "React", "Node.js"],
+      "experience_years": 8,
+      "salary": 120000
+    },
+    {
+      "id": 2,
+      "name": "Bob Smith",
+      "position": "Product Manager",
+      "department": "Product",
+      "skills": ["Product Strategy", "Agile", "User Research"],
+      "experience_years": 6,
+      "salary": 110000
+    },
+    {
+      "id": 3,
+      "name": "Carol Williams",
+      "position": "Data Scientist",
+      "department": "Analytics",
+      "skills": ["Python", "Machine Learning", "SQL", "TensorFlow"],
+      "experience_years": 5,
+      "salary": 115000
+    },
+    {
+      "id": 4,
+      "name": "David Brown",
+      "position": "DevOps Engineer",
+      "department": "Infrastructure",
+      "skills": ["Docker", "Kubernetes", "AWS", "Terraform"],
+      "experience_years": 7,
+      "salary": 125000
+    }
+  ],
+  "departments": [
+    {
+      "name": "Engineering",
+      "budget": 2000000,
+      "head": "Alice Johnson"
+    },
+    {
+      "name": "Product",
+      "budget": 800000,
+      "head": "Bob Smith"
+    },
+    {
+      "name": "Analytics",
+      "budget": 1200000,
+      "head": "Carol Williams"
+    },
+    {
+      "name": "Infrastructure",
+      "budget": 1500000,
+      "head": "David Brown"
+    }
+  ],
+  "projects": [
+    {
+      "id": "PROJ-001",
+      "name": "Customer Portal Redesign",
+      "status": "in_progress",
+      "team_size": 5,
+      "deadline": "2024-06-30"
+    },
+    {
+      "id": "PROJ-002",
+      "name": "ML-based Recommendation Engine",
+      "status": "planning",
+      "team_size": 3,
+      "deadline": "2024-09-15"
+    }
+  ]
+}
