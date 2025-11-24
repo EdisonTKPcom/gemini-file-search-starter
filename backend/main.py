@@ -123,10 +123,11 @@ async def root():
 async def health_check():
     """Health check endpoint"""
     gemini_status = "connected" if gemini_client else "disconnected"
+    from datetime import datetime, timezone
     return {
         "status": "healthy",
         "gemini": gemini_status,
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.now(timezone.utc).isoformat()
     }
 
 
@@ -159,9 +160,10 @@ async def upload_file(
         # Determine or create store
         if create_new_store or not store_name:
             # Create a new store with timestamp
-            display_name = f"FileSearchStore_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}"
+            from datetime import timezone
+            display_name = f"FileSearchStore_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
             store = gemini_client.create_file_search_store(display_name=display_name)
-            store_name = store.name
+            store_name = store["name"]
             logger.info(f"Created new store: {store_name}")
         
         # Detect MIME type
@@ -178,7 +180,7 @@ async def upload_file(
             name=file.filename,
             file_id=uploaded_file.name,
             status="ready",
-            uploaded_at=datetime.utcnow().isoformat()
+            uploaded_at=datetime.now(timezone.utc).isoformat()
         )
         
         return UploadResponse(
@@ -254,9 +256,9 @@ async def list_stores():
         store_infos = []
         for store in stores:
             store_info = StoreInfo(
-                name=store.name,
-                display_name=store.display_name or store.name,
-                created_at=None  # Add if available in API response
+                name=store.get("name", ""),
+                display_name=store.get("display_name", store.get("name", "")),
+                created_at=store.get("created_at")
             )
             store_infos.append(store_info)
         
@@ -267,7 +269,7 @@ async def list_stores():
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.delete("/stores/{store_id}")
+@app.delete("/stores/{store_id:path}")
 async def delete_store(store_id: str):
     """
     Delete a File Search Store.

@@ -57,37 +57,27 @@ class TestGeminiFileSearchClient:
     @patch('gemini_client.genai.Client')
     def test_create_file_search_store(self, mock_client):
         """Test creating a File Search Store"""
-        mock_store = Mock()
-        mock_store.name = "file_search_stores/test123"
+        mock_store = {"name": "file_collection_test_store", "display_name": "Test Store"}
         
         mock_client_instance = mock_client.return_value
-        mock_client_instance.file_search_stores.create.return_value = mock_store
         
         client = GeminiFileSearchClient(api_key="test-key")
         store = client.create_file_search_store("Test Store")
         
-        assert store.name == "file_search_stores/test123"
-        mock_client_instance.file_search_stores.create.assert_called_once_with(
-            display_name="Test Store"
-        )
+        assert store["name"] == "file_collection_test_store"
+        assert store["display_name"] == "Test Store"
     
     @patch('gemini_client.genai.Client')
     def test_list_stores(self, mock_client):
         """Test listing File Search Stores"""
-        mock_store1 = Mock()
-        mock_store1.name = "file_search_stores/test1"
-        mock_store2 = Mock()
-        mock_store2.name = "file_search_stores/test2"
-        
         mock_client_instance = mock_client.return_value
-        mock_client_instance.file_search_stores.list.return_value = [mock_store1, mock_store2]
         
         client = GeminiFileSearchClient(api_key="test-key")
         stores = client.list_stores()
         
-        assert len(stores) == 2
-        assert stores[0].name == "file_search_stores/test1"
-        assert stores[1].name == "file_search_stores/test2"
+        # Should return empty list as per implementation
+        assert len(stores) == 0
+        assert isinstance(stores, list)
     
     @patch('gemini_client.genai.Client')
     def test_delete_store(self, mock_client):

@@ -50,8 +50,7 @@ class TestUploadEndpoint:
     def test_upload_file_success(self, client, mock_gemini_client):
         """Test successful file upload"""
         # Mock store creation
-        mock_store = Mock()
-        mock_store.name = "file_search_stores/test123"
+        mock_store = {"name": "file_collection_test", "display_name": "FileSearchStore_test"}
         mock_gemini_client.create_file_search_store.return_value = mock_store
         
         # Mock file upload
@@ -63,7 +62,7 @@ class TestUploadEndpoint:
         # Create test file
         file_content = b"Test file content"
         files = {"file": ("test.txt", io.BytesIO(file_content), "text/plain")}
-        data = {"create_new_store": True}
+        data = {"create_new_store": "true"}
         
         response = client.post("/upload", files=files, data=data)
         
@@ -134,13 +133,8 @@ class TestStoreEndpoints:
     def test_list_stores(self, client, mock_gemini_client):
         """Test listing stores"""
         # Mock stores
-        mock_store1 = Mock()
-        mock_store1.name = "file_search_stores/test1"
-        mock_store1.display_name = "Test Store 1"
-        
-        mock_store2 = Mock()
-        mock_store2.name = "file_search_stores/test2"
-        mock_store2.display_name = "Test Store 2"
+        mock_store1 = {"name": "file_collection_1", "display_name": "Test Store 1"}
+        mock_store2 = {"name": "file_collection_2", "display_name": "Test Store 2"}
         
         mock_gemini_client.list_stores.return_value = [mock_store1, mock_store2]
         
@@ -149,7 +143,7 @@ class TestStoreEndpoints:
         assert response.status_code == 200
         stores = response.json()
         assert len(stores) == 2
-        assert stores[0]["name"] == "file_search_stores/test1"
+        assert stores[0]["name"] == "file_collection_1"
         assert stores[1]["display_name"] == "Test Store 2"
     
     def test_delete_store(self, client, mock_gemini_client):
